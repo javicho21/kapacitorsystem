@@ -29,4 +29,4 @@ bash deploy_tasks.sh
 
 ## Aditional remarks
 
-The alerts are being stored again on influxDB on database alerts with ["MEASUREMENT"Alert]
+The alerts are being stored again on influxDB on database alerts with ["MEASUREMENT"]
