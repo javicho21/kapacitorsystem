@@ -1,5 +1,10 @@
 batch
-    |query('SELECT mean(value) as value FROM "sensormetrics"."autogen"."__MEASUREMENT__"')
+    |query(
+		'''
+         SELECT mean("value") as value 
+         FROM "sensormetrics"."autogen"."__MEASUREMENT__"
+         WHERE "Severity"!='INFO' and "Severity"!='WARNING' and "Severity"!='CRITICAL'
+     	''')
         .period(15m)
         .every(5s)
         .groupBy(*)
@@ -11,7 +16,7 @@ batch
         .warn(lambda: "value" < __WARN_THRESHOLD__)
         .crit(lambda: "value" < __CRIT_THRESHOLD__)
         .stateChangesOnly()
-        .levelField('level')
+        .levelField('Severity')
         .log('/var/log/kapacitor/kapacitor.log')
     |influxDBOut()
         .database('sensormetrics')
